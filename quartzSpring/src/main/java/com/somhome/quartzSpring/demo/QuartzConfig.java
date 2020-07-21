@@ -57,24 +57,25 @@ public class QuartzConfig {
 	}
 
 	static SimpleTriggerFactoryBean createTrigger(JobDetail jobDetail, long pollFrequencyMs, String triggerName) {
-		log.debug("createTrigger(jobDetail={}, pollFrequencyMs={}, triggerName={})", jobDetail.toString(),
+		log.info("createTrigger(jobDetail={}, pollFrequencyMs={}, triggerName={})", jobDetail.toString(),
 				pollFrequencyMs, triggerName);
 		SimpleTriggerFactoryBean factoryBean = new SimpleTriggerFactoryBean();
 		factoryBean.setJobDetail(jobDetail);
-		factoryBean.setStartDelay(0L);
+		factoryBean.setStartDelay(9000L); // delay of 9 seconds 
 		factoryBean.setRepeatInterval(pollFrequencyMs);
 		factoryBean.setName(triggerName);
-		factoryBean.setRepeatCount(SimpleTrigger.REPEAT_INDEFINITELY);
+		factoryBean.setRepeatCount(3);
 		factoryBean.setMisfireInstruction(SimpleTrigger.MISFIRE_INSTRUCTION_RESCHEDULE_NEXT_WITH_REMAINING_COUNT);
 		return factoryBean;
 	}
 	
 	static CronTriggerFactoryBean createCronTrigger(JobDetail jobDetail, String cronExpression, String triggerName) {
-        log.debug("createCronTrigger(jobDetail={}, cronExpression={}, triggerName={})", jobDetail.toString(), cronExpression, triggerName);
+        log.info("createCronTrigger(jobDetail={}, cronExpression={}, triggerName={})", jobDetail.toString(), cronExpression, triggerName);
         // To fix an issue with time-based cron jobs
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
+        log.info("Calender : {}", calendar.getTime());
         CronTriggerFactoryBean factoryBean = new CronTriggerFactoryBean();
         factoryBean.setJobDetail(jobDetail);
         factoryBean.setCronExpression(cronExpression);

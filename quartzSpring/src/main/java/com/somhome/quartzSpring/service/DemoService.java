@@ -12,4 +12,8 @@ public class DemoService {
 	public void perfromServiceLogic() {
 		log.info("Perform Business Logic");
 	}
+	
+	public void perfromServiceLogicForCronExpression() {
+		log.info("Executing as per cron expression");
+	}
 }
